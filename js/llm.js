@@ -14,6 +14,11 @@
   function detectProxy() {
     if (_proxy) return Promise.resolve(_proxy);
     if (Store.S.proxyMode === 'direct') { _proxy = { proxy: false, ready: [] }; return Promise.resolve(_proxy); }
+    // 純靜態主機不可能有後端，探測必定 404，只會在主控台留下無意義的錯誤
+    if (/\.github\.io$/i.test(location.hostname)) {
+      _proxy = { proxy: false, ready: [] };
+      return Promise.resolve(_proxy);
+    }
     return fetch('/api/providers', { method: 'GET' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
