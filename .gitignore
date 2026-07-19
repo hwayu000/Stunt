@@ -1,0 +1,30 @@
+# 祕密：絕對不進版控
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets.json
+
+# 驗證產物與相依
+_check/node_modules/
+_check/shots/
+node_modules/
+
+# 系統與編輯器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# 暫存
+*.log
+tmp/
+temp/
+
+# 內部文件與驗證工具：不公開
+_check/
+docs/
+_state/
+SECURITY.md

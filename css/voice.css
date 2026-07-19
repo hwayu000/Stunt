@@ -1,0 +1,98 @@
+/* ============================================================
+   Stunt — 人格口吻模組樣式
+   只放 voice 模組專用的樣式，不覆寫 base / tokens / modules。
+   ============================================================ */
+
+/* 口吻檔案的主語氣：整張卡的視覺焦點 */
+.voice-tone {
+  margin: var(--sp-2) 0 var(--sp-3);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--ink);
+}
+
+/* 模型補上的語感判讀 */
+.voice-llm-note {
+  margin-top: var(--sp-3);
+  border-left: 3px solid var(--accent);
+}
+.voice-llm-note p { margin: 0; color: var(--ink-2); }
+
+/* 建議清單 */
+.voice-tips {
+  margin: var(--sp-2) 0 0;
+  padding-left: var(--sp-5);
+}
+.voice-tips li { margin-top: var(--sp-2); line-height: var(--lh-base); }
+
+/* LLM 補強開關：checkbox 與說明同一行 */
+.voice-opt > .label { align-items: flex-start; }
+.voice-opt input[type="checkbox"] {
+  width: 18px; height: 18px;
+  margin: 1px var(--sp-1) 0 0;
+  accent-color: var(--brand);
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+/* ---------- A/B/C 校準選項 ---------- */
+.calib-opt {
+  display: block;
+  width: 100%;
+  min-height: var(--tap-min);
+  margin-top: var(--sp-3);
+  padding: var(--sp-4);
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  background: var(--bg-sunken);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line-strong);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease),
+              background var(--dur-fast) var(--ease),
+              box-shadow var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease);
+}
+.calib-opt:hover {
+  background: var(--bg-elev);
+  border-left-color: var(--brand);
+  border: 1px solid var(--line);
+}
+.calib-opt:active { transform: translateY(1px); }
+.calib-opt:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.calib-opt.is-on {
+  background: var(--brand-soft);
+  border-color: var(--brand-line);
+  border-left-color: var(--brand);
+}
+
+.calib-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-2);
+}
+.calib-name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semi);
+  color: var(--brand-press);
+}
+.calib-text {
+  display: block;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--ink-2);
+}
+.calib-opt.is-on .calib-text { color: var(--ink); }
+
+@media (max-width: 767px) {
+  .voice-tone { font-size: var(--fs-lg); }
+  .calib-opt { padding: var(--sp-3); }
+}

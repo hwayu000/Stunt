@@ -1,0 +1,175 @@
+/* ============================================================
+   Stunt — 功能模組共用樣式
+   ============================================================ */
+
+/* ---------- 模型設定 ---------- */
+.route-card { margin-bottom: var(--sp-5); }
+.model-grid { align-items: start; }
+
+.model-card {
+  transition: border-color var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+}
+.model-card.is-active { border-color: var(--ink); }
+
+.model-head { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-4); }
+.model-head .model-id { flex: 1; min-width: 0; }
+.model-head h3 { margin: 0; }
+.model-sub { color: var(--ink-3); font-size: var(--fs-sm); font-family: var(--font-mono); }
+
+.model-mark {
+  width: 40px; height: 40px; flex: none;
+  display: grid; place-items: center;
+  border-radius: var(--r-md);
+  font-size: var(--fs-md); font-weight: var(--fw-bold);
+  color: #fff; background: var(--ink-2);
+}
+.mk-deepseek { background: #2D6BFF; }
+.mk-gemini   { background: #7A5AF8; }
+
+/* ---------- 步驟編號：小圓點＋等寬數字，不做填色圓圈 ---------- */
+.step-num {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm); font-weight: var(--fw-semi);
+  color: var(--ink-3); letter-spacing: .06em;
+}
+.step-num::before {
+  content: ""; width: 6px; height: 6px; flex: none;
+  border-radius: 50%; background: var(--brand);
+}
+
+/* ---------- 結果卡片群 ---------- */
+.result-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.rcard {
+  padding: var(--sp-4);
+  background: var(--bg-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+.rcard h4 { margin: 0 0 var(--sp-3); font-size: var(--fs-sm); color: var(--ink-3); font-weight: var(--fw-semi); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+
+/* 手機：膠囊列改成不換行、可橫滑，右緣切一半暗示還有更多 */
+@media (max-width: 767px) {
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    margin: 0 calc(var(--sp-5) * -1);
+    padding: 2px var(--sp-5);
+    -webkit-mask-image: linear-gradient(to right, #000 0 92%, transparent 100%);
+            mask-image: linear-gradient(to right, #000 0 92%, transparent 100%);
+  }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips > * { flex: none; scroll-snap-align: start; }
+}
+.chip {
+  padding: 6px 12px;
+  font-size: var(--fs-sm);
+  background: transparent; color: var(--ink-2);
+  border: 1px solid var(--line-strong); border-radius: var(--r-pill);
+}
+.chip-ok { color: var(--ok); border-color: #C3D5C8; }
+
+/* 自帶膠囊基底：單獨使用 .chip-btn 也要是膠囊，不能退化成方框 */
+.chip-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  font-family: inherit; font-size: var(--fs-sm); font-weight: var(--fw-medium);
+  color: var(--ink-2); background: transparent;
+  border: 1px solid var(--line-strong); border-radius: var(--r-pill);
+  cursor: pointer; white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease);
+}
+.chip-btn:hover { border-color: var(--ink); color: var(--ink); background: transparent; }
+/* 選中＝近黑實心，全站唯一的「已選定」語彙 */
+.chip-btn.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
+@media (max-width: 767px) { .chip-btn { min-height: 38px; } }
+
+/* ---------- 已存清單：髮絲線分列，不做一格一格的方框 ---------- */
+.saved-list { display: flex; flex-direction: column; }
+.saved-item {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-4) 0;
+  background: transparent;
+  border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+  transition: padding-left var(--dur-base) var(--ease), background var(--dur-fast) var(--ease);
+}
+.saved-item:last-child { border-bottom: 0; }
+.saved-item:hover { padding-left: var(--sp-2); }
+.saved-item.is-active { border-color: var(--line); position: relative; }
+.saved-item.is-active::before {
+  content: ""; position: absolute; left: -10px; top: 50%;
+  width: 2px; height: 20px; margin-top: -10px;
+  border-radius: 1px; background: var(--brand);
+}
+.saved-item .nm { flex: 1; min-width: 0; font-weight: var(--fw-semi);
+                  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 767px) {
+  .saved-item { flex-wrap: wrap; }
+  .saved-item .nm { flex: 1 0 100%; }
+}
+
+/* ---------- 分頁籤 ---------- */
+.tabs {
+  display: flex; gap: var(--sp-1);
+  padding: var(--sp-1);
+  background: var(--bg-sunken);
+  border-radius: var(--r-md);
+  margin-bottom: var(--sp-5);
+  overflow-x: auto;
+}
+.tab {
+  flex: 1; min-height: 38px; padding: 0 var(--sp-4);
+  font-family: inherit; font-size: var(--fs-sm); font-weight: var(--fw-semi);
+  color: var(--ink-2); background: transparent;
+  border: 0; border-radius: var(--r-sm); cursor: pointer; white-space: nowrap;
+  transition: background var(--dur-base) var(--ease), color var(--dur-base) var(--ease),
+              box-shadow var(--dur-base) var(--ease);
+}
+.tab.active { background: var(--bg-elev); color: var(--ink); border: 1px solid var(--line); }
+@media (max-width: 767px) { .tab { min-height: var(--tap-min); } }
+
+/* ---------- 風險量表（Hook 檢測） ---------- */
+.risk-meter {
+  height: 8px; border-radius: var(--r-pill);
+  background: var(--bg-sunken); overflow: hidden; margin: var(--sp-3) 0;
+}
+.risk-fill {
+  height: 100%; border-radius: var(--r-pill);
+  background: var(--ok);
+  width: 0;
+  transition: width var(--dur-slow) var(--ease-out), background var(--dur-base) var(--ease);
+}
+.risk-fill.mid  { background: var(--warn); }
+.risk-fill.high { background: var(--danger); }
+.risk-score { font-size: var(--fs-2xl); font-weight: var(--fw-bold); font-family: var(--font-mono); }
+
+/* ---------- 逐字稿段落 ---------- */
+.sect {
+  padding: var(--sp-4);
+  border-left: 3px solid var(--brand);
+  background: var(--bg-sunken);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+}
+.sect + .sect { margin-top: var(--sp-3); }
+.sect .sect-name {
+  font-size: var(--fs-sm); font-weight: var(--fw-semi); color: var(--brand-press);
+  margin-bottom: var(--sp-2);
+}
+.sect p { white-space: pre-wrap; }
+
+/* ---------- 提醒條 ---------- */
+.notice {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--accent-soft); border: 1px solid var(--accent-line);
+  color: var(--ink-2);
+}
+.notice-warn   { background: var(--warn-soft);   border-color: #E6D3B4; }
+.notice-danger { background: var(--danger-soft); border-color: #E5C5C1; }

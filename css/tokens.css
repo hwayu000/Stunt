@@ -1,0 +1,121 @@
+/* ============================================================
+   Stunt — 設計系統 tokens
+   作者：Ash
+   視覺方向：白底 ＋ 橘（主行動）／藍（輔資訊）雙色，Untitled UI 質感
+   字級鐵律：最小 14px（手機 15px）。禁止 11–12px 密集小字。
+             說明性文字一律收進 tooltip，不平鋪在版面上。
+   ============================================================ */
+
+:root {
+  /* ---- 色彩：暖中性（北歐骨白，不用冷灰藍，避免系統對話框感） ---- */
+  --bg:            #F4F3F0;
+  --bg-elev:       #FFFFFF;
+  --bg-sunken:     #EDECE8;
+  --line:          #E5E3DD;
+  --line-strong:   #D4D1C9;
+
+  /* ---- 色彩：文字 ---- */
+  --ink:           #1A1917;
+  --ink-2:         #56534C;
+  --ink-3:         #8B877E;
+  --ink-on-solid:  #FFFFFF;
+
+  /* ---- 色彩：品牌（橘降級為指示色，主行動用近黑） ---- */
+  --brand:         #DD5A24;
+  --brand-hover:   #C64E1D;
+  --brand-press:   #A94218;
+  --brand-soft:    #FAEEE7;
+  --brand-line:    #EBCDB9;
+
+  --accent:        #35618E;
+  --accent-hover:  #2A4F76;
+  --accent-soft:   #EDF1F6;
+  --accent-line:   #C8D5E3;
+
+  /* ---- 色彩：語意（去飽和，與暖中性共存） ---- */
+  --ok:            #3F6B52;
+  --ok-soft:       #EAF1EC;
+  --warn:          #8A5A1B;
+  --warn-soft:     #F7EFE2;
+  --danger:        #A63F38;
+  --danger-soft:   #F7EAE8;
+
+  /* ---- 圓角 ---- */
+  --r-sm:  8px;
+  --r-md:  12px;
+  --r-lg:  16px;
+  --r-xl:  22px;
+  --r-pill: 999px;
+
+  /* ---- 陰影：只給「真的浮起來」的東西（Dock、彈窗、拖曳中） ----
+     一般卡片一律用 hairline 分隔，不疊陰影。 */
+  --sh-1: none;
+  --sh-2: none;
+  --sh-3: 0 2px 10px rgba(26,25,23,.05);
+  --sh-4: 0 16px 40px rgba(26,25,23,.14), 0 3px 10px rgba(26,25,23,.06);
+  --sh-brand: none;
+
+  /* ---- 間距（8 的倍數） ---- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+
+  /* ---- 字族 ---- */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC",
+               "Noto Sans TC", "Microsoft JhengHei UI", "Microsoft JhengHei",
+               Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+               "Liberation Mono", monospace;
+
+  /* ---- 字級：最小 14px，全站僅此六階 ---- */
+  --fs-min:  14px;   /* 地板值，任何文字不得小於此 */
+  --fs-sm:   14px;   /* 標籤、徽章、次要按鈕 */
+  --fs-base: 15px;   /* 內文預設 */
+  --fs-md:   17px;   /* 卡片標題、強調行 */
+  --fs-lg:   20px;   /* 區塊標題 */
+  --fs-xl:   26px;   /* 頁標題 */
+  --fs-2xl:  34px;   /* 主視覺數字 / 登入標題 */
+
+  --lh-tight: 1.25;
+  --lh-base:  1.6;
+
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semi:   600;
+  --fw-bold:   700;
+
+  /* ---- 動態 ---- */
+  --ease:      cubic-bezier(.4, 0, .2, 1);
+  --ease-out:  cubic-bezier(.16, 1, .3, 1);
+  --dur-fast:  140ms;
+  --dur-base:  220ms;
+  --dur-slow:  380ms;
+
+  /* ---- 版面尺度 ---- */
+  --sidebar-w:   264px;
+  --topbar-h:    64px;
+  --bottomnav-h: 64px;
+  --dock-gap:    12px;   /* Dock 與螢幕邊緣的距離 */
+  --dock-radius: 24px;
+  --tap-min:     44px;   /* 手機可點擊區域最小值 */
+  --content-max: 1180px;
+
+  /* ---- 層級 ---- */
+  --z-nav: 40; --z-sheet: 60; --z-modal: 80; --z-tip: 90; --z-toast: 100;
+}
+
+/* 手機：內文與最小字級上調一階，避免 iOS 聚焦自動縮放 */
+@media (max-width: 767px) {
+  :root {
+    --fs-min:  15px;
+    --fs-sm:   15px;
+    --fs-base: 16px;
+    --fs-md:   17px;
+    --fs-lg:   19px;
+    --fs-xl:   23px;
+    --fs-2xl:  30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms; }
+}

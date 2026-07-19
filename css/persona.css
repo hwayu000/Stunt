@@ -1,0 +1,88 @@
+/* ============================================================
+   Stunt — 人設定位模組專屬樣式
+   僅補 modules.css 沒有的部分，其餘一律沿用既有 class。
+   ============================================================ */
+
+/* ---------- 輸入分頁面板 ---------- */
+.persona-panel { animation: persona-fade var(--dur-base) var(--ease-out); }
+@keyframes persona-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .persona-panel { animation: none; }
+}
+
+.persona-ta { min-height: 132px; resize: vertical; line-height: var(--lh-base); }
+
+/* ---------- 核心定位橫幅 ---------- */
+.core-card { border-color: var(--brand-line); }
+
+.core-banner {
+  display: flex; flex-direction: column; gap: var(--sp-2);
+  padding: var(--sp-5) var(--sp-6);
+  border-radius: var(--r-lg);
+  background: var(--brand-soft);
+  border: 1px solid var(--brand-line);
+  transition: box-shadow var(--dur-base) var(--ease);
+}
+.core-banner:hover { box-shadow: var(--sh-3); }
+
+.core-label {
+  font-size: var(--fs-sm); font-weight: var(--fw-semi);
+  color: var(--brand-press); letter-spacing: .02em;
+}
+.core-text {
+  font-size: var(--fs-xl); font-weight: var(--fw-bold);
+  color: var(--ink); line-height: var(--lh-tight);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- 結果區塊間距 ---------- */
+.persona-result > .card:first-child { margin-top: var(--sp-5); }
+.persona-cols { margin-top: var(--sp-5); align-items: start; }
+.persona-cols > .card + .card { margin-top: 0; }
+
+/* 心智模型卡與其他分層做出區別 */
+.rcard-mind { background: var(--accent-soft); border-color: var(--accent-line); }
+.rcard-mind h4 { color: var(--accent-hover); }
+
+/* ---------- 已驗證標記 ---------- */
+.chip-mark {
+  margin-left: var(--sp-2);
+  font-size: var(--fs-sm); font-weight: var(--fw-semi);
+  color: var(--ok);
+}
+
+/* ---------- 禁語標籤（可刪除） ---------- */
+.chip-del { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.chip-del:hover { background: var(--danger-soft); border-color: var(--danger); color: var(--danger); }
+.chip-x { font-size: var(--fs-sm); font-weight: var(--fw-bold); line-height: 1; }
+
+.anti-row .inp,
+.save-row .inp { flex: 1 1 220px; min-width: 0; }
+
+/* ---------- 誠實邊界條列 ---------- */
+.honesty-list {
+  margin: 0; padding-left: var(--sp-5);
+  color: var(--ink-2); font-size: var(--fs-base); line-height: var(--lh-base);
+}
+.honesty-list li + li { margin-top: var(--sp-2); }
+
+/* ---------- 已存人設：目前編輯中 ---------- */
+.saved-item.is-active { border-color: var(--ink); }
+
+/* ---------- 響應式 ---------- */
+@media (max-width: 1023px) {
+  .persona-cols { grid-template-columns: minmax(0, 1fr); }
+  .persona-cols > .card + .card { margin-top: var(--sp-5); }
+}
+@media (max-width: 767px) {
+  .core-banner { padding: var(--sp-4); }
+  .core-text { font-size: var(--fs-lg); }
+  .anti-row .inp,
+  .save-row .inp { flex: 1 0 100%; }
+  .anti-row .btn,
+  .save-row .btn { width: 100%; }
+  .chip-del { min-height: var(--tap-min); }
+}

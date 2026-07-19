@@ -1,0 +1,86 @@
+/* ============================================================
+   Stunt — 文案架構模組樣式
+   只服務 js/script.js，不覆寫 base / tokens / modules 的既有規則。
+   ============================================================ */
+
+/* ---------- 徽章列 ---------- */
+.badge-row { gap: var(--sp-2); }
+
+/* ---------- 主題輸入：輸入框與按鈕同列，手機自動換行 ---------- */
+.row-nowrap { flex-wrap: nowrap; gap: var(--sp-2); }
+.row-nowrap > .inp { flex: 1 1 auto; min-width: 0; }
+.row-nowrap > .btn { flex: 0 0 auto; white-space: nowrap; }
+@media (max-width: 480px) {
+  .row-nowrap { flex-wrap: wrap; }
+  .row-nowrap > .inp,
+  .row-nowrap > .btn { flex: 1 1 100%; }
+}
+
+textarea.inp.ta { min-height: 108px; resize: vertical; line-height: 1.7; }
+
+/* ---------- 主題建議 ---------- */
+.sug-box { margin-bottom: var(--sp-5); }
+.sug-box:empty { display: none; }
+.sug-kind {
+  font-weight: var(--fw-bold);
+  margin-right: var(--sp-2);
+}
+.sug-kind.k-spec  { color: var(--ok); }
+.sug-kind.k-broad { color: var(--warn); }
+.chip-btn.is-on .sug-kind,
+.chip-btn:hover .sug-kind { color: inherit; }
+
+/* ---------- 技能開關 ---------- */
+.skill-list { display: flex; flex-direction: column; gap: var(--sp-3); }
+.skill-row {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+.skill-row .switch { flex: 1; min-width: 0; }
+.skill-nm { font-weight: var(--fw-semi); }
+@media (max-width: 767px) { .skill-row { min-height: var(--tap-min); } }
+
+/* ---------- 逐字稿段落 ---------- */
+.script-out:empty { display: none; }
+.script-out > .card { margin-top: var(--sp-5); }
+.sect-head { gap: var(--sp-2); margin-bottom: var(--sp-2); }
+.sect-head .sect-name { margin-bottom: 0; }
+.sect p { margin: 0; line-height: 1.9; }
+
+/* ---------- Hook 風險 ---------- */
+.hook-card .risk-score { line-height: 1; }
+.rk-low   { color: var(--ok); }
+.rk-mid   { color: var(--warn); }
+.rk-high  { color: var(--danger); }
+
+/* ---------- 檢查清單 ---------- */
+.chk-list {
+  margin: var(--sp-3) 0 0;
+  padding-left: 1.25em;
+  font-size: var(--fs-sm);
+  line-height: 1.9;
+  color: var(--ink-2);
+}
+.chk-list li + li { margin-top: var(--sp-1); }
+.chk-warn   { color: var(--warn); }
+.chk-danger { color: var(--danger); }
+.chk-pass   { color: var(--ok); font-size: var(--fs-sm); font-weight: var(--fw-semi); }
+
+/* ---------- 技能回報 ---------- */
+.skill-report {
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+.skill-report strong { font-size: var(--fs-base); }
+.skill-report .card-sub { margin: var(--sp-2) 0 0; }
+
+/* ---------- 提醒條內文 ---------- */
+.notice-body { flex: 1; min-width: 0; }
+.notice-body strong { display: block; margin-bottom: var(--sp-1); }
+.notice-body .card-sub { margin: 0; }
+.notice-body .chk-list { margin-top: var(--sp-2); }

@@ -1,0 +1,213 @@
+/* ============================================================
+   Stunt — Landing（瑞士排版）
+   語言：灰底、細分隔線、極粗黑標題、雙色字、括號上標數字、
+        黑色實心 pill、刻度尺。零漸層、零光暈。
+   ============================================================ */
+
+#landingView {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: flex; flex-direction: column;
+  padding: clamp(18px, 2.6vw, 40px) clamp(18px, 3.2vw, 56px);
+  background: #EAEAEA;
+  color: var(--ink);
+  /* 極矮視窗時允許捲動，避免內容被裁掉或互相疊字 */
+  overflow-y: auto;
+}
+#landingView[hidden] { display: none; }
+
+/* ---------- 頂列：一條 hairline 之上的資訊帶 ---------- */
+.ld-top {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding-bottom: clamp(12px, 1.6vh, 20px);
+  border-bottom: 1px solid rgba(15, 17, 21, .18);
+}
+.ld-top .mark { width: 30px; height: 30px; border-radius: 7px; }
+.ld-top .wordmark {
+  font-size: var(--fs-lg); font-weight: var(--fw-bold); letter-spacing: -.02em;
+}
+.ld-top .wordmark .dot { color: var(--brand); }
+.ld-top .by {
+  margin-left: auto;
+  font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--ink-3);
+}
+
+/* ---------- 主區：左大字、右索引欄（瑞士的兩欄不對稱網格） ---------- */
+.ld-body {
+  flex: 1; min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  /* safe：空間不足時退回靠上，不會把內容推出上緣造成疊字 */
+  align-content: safe center;
+  gap: clamp(20px, 4vw, 64px);
+  padding: clamp(16px, 3vh, 40px) 0;
+}
+@media (min-width: 1000px) {
+  .ld-body {
+    grid-template-columns: minmax(0, 7fr) minmax(240px, 3fr);
+    /* 兩欄底部齊平，是瑞士排版的基線紀律 */
+    align-items: end;
+  }
+}
+
+/* 主標：雙色（黑＋灰），呼應參考的 Choose Country / Listen Online */
+.ld-kicker {
+  margin: 0 0 clamp(14px, 2.2vh, 28px);
+  font-size: clamp(26px, 3.4vw, 44px);
+  font-weight: var(--fw-bold);
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  opacity: 0;
+  animation: ld-fade .6s var(--ease-out) .06s forwards;
+}
+.ld-kicker .mute { color: var(--ink-3); }
+
+.ld-list { list-style: none; margin: 0; padding: 0; }
+
+.ld-line { overflow: hidden; line-height: 1.06; }
+.ld-line + .ld-line { margin-top: clamp(2px, .5vh, 8px); }
+
+.ld-line > .ld-inner {
+  display: inline-flex; align-items: flex-start; gap: .1em;
+  transform: translateY(105%);
+  animation: ld-rise .8s var(--ease-out) forwards;
+}
+.ld-line:nth-child(1) > .ld-inner { animation-delay: .14s; }
+.ld-line:nth-child(2) > .ld-inner { animation-delay: .22s; }
+.ld-line:nth-child(3) > .ld-inner { animation-delay: .30s; }
+.ld-line:nth-child(4) > .ld-inner { animation-delay: .38s; }
+
+@keyframes ld-rise { to { transform: none; } }
+@keyframes ld-fade { to { opacity: 1; } }
+
+.ld-word {
+  font-size: clamp(40px, 8vw, 88px);
+  font-weight: var(--fw-bold);
+  letter-spacing: -.035em;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: color var(--dur-base) var(--ease);
+}
+/* 括號上標編號：參考圖的 (3) (18) 寫法 */
+.ld-num {
+  font-family: var(--font-mono);
+  font-size: clamp(12px, 1.1vw, 16px);
+  font-weight: var(--fw-medium);
+  color: var(--ink-3);
+  margin-top: .5em;
+  transition: color var(--dur-base) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ld-line:hover .ld-word { color: var(--brand); }
+  .ld-line:hover .ld-num  { color: var(--brand); }
+}
+
+/* ---------- 循環動畫：雙橢圓軌道與繞行光點 ----------
+   語彙取自編輯式版面常見的軌道線稿：只有細線與一顆光點，
+   轉速慢到不搶視線，永不停止。 */
+/* 尺寸同時受寬度與「剩餘高度」限制，任何視窗都不會把版面撐爆 */
+.ld-orbit {
+  justify-self: center; align-self: center;
+  width: min(100%, 460px, 46vh);
+  aspect-ratio: 1;
+  opacity: 0; animation: ld-fade 1.2s var(--ease-out) .5s forwards;
+}
+.ld-orbit svg { display: block; overflow: visible; }
+
+.ld-orbit ellipse {
+  fill: none;
+  stroke: rgba(26, 25, 23, .22);
+  stroke-width: 1;
+}
+.orb { transform-origin: 160px 160px; }
+.orb-a { animation: orb-spin 26s linear infinite; }
+.orb-b { animation: orb-spin 38s linear infinite reverse; }
+.orb-c { animation: orb-spin 64s linear infinite; }
+.orb-c ellipse { stroke-dasharray: 2 10; stroke: rgba(26, 25, 23, .3); }
+
+.orb-dot { fill: var(--brand); }
+.orb-dot-b { fill: var(--ink); }
+.orb-core { fill: var(--ink); }
+
+@keyframes orb-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .orb { animation: none; }
+}
+
+/* ---------- 底列 ---------- */
+.ld-foot {
+  display: flex; align-items: center; gap: var(--sp-4);
+  padding-top: clamp(14px, 2vh, 24px);
+  border-top: 1px solid rgba(15, 17, 21, .18);
+  opacity: 0; animation: ld-fade .7s var(--ease-out) .54s forwards;
+}
+/* 登入直接長在 Landing 上：一個欄位＋一顆圖示鈕，沒有多餘文字 */
+.ld-auth {
+  display: flex; align-items: center; gap: var(--sp-3);
+  min-width: 0;
+}
+.ld-auth-input {
+  width: clamp(150px, 24vw, 240px);
+  min-height: 46px; padding: 0 var(--sp-2);
+  font-family: inherit; font-size: var(--fs-md); font-weight: var(--fw-semi);
+  color: var(--ink); background: transparent;
+  border: 0; border-bottom: 1.5px solid rgba(15, 17, 21, .28);
+  border-radius: 0;
+  transition: border-color var(--dur-base) var(--ease);
+}
+.ld-auth-input::placeholder { color: var(--ink-3); font-weight: var(--fw-normal); }
+.ld-auth-input:focus { outline: none; border-bottom-color: var(--ink); }
+
+.ld-auth-go {
+  display: inline-grid; place-items: center;
+  width: 50px; height: 50px; flex: none;
+  color: #fff; background: var(--ink);
+  border: 0; border-radius: 50%; cursor: pointer;
+  transition: background var(--dur-base) var(--ease),
+              transform var(--dur-base) var(--ease-out);
+}
+.ld-auth-go:hover { background: var(--brand); }
+.ld-auth-go:hover svg { transform: translateX(2px); }
+.ld-auth-go svg { transition: transform var(--dur-base) var(--ease-out); }
+.ld-auth-go:active { transform: scale(.96); }
+
+.ld-err {
+  font-size: var(--fs-sm); color: var(--danger);
+}
+.ld-err[hidden] { display: none; }
+
+.shake { animation: ld-shake 340ms var(--ease); }
+@keyframes ld-shake {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-6px); }
+  60%     { transform: translateX(4px); }
+}
+
+/* 單欄佈局：軌道改為「填滿剩下的那一列」，不再用視窗比例猜尺寸。
+   列高為 minmax(0, 1fr)，剩多少就畫多大，任何視窗高度都不會越界。 */
+@media (max-width: 999px) {
+  .ld-body { grid-template-rows: auto minmax(0, 1fr); }
+  .ld-orbit {
+    width: auto; height: 100%;
+    max-width: min(100%, 300px);
+    aspect-ratio: 1;
+    justify-self: center; align-self: center;
+    margin: 0;
+  }
+}
+
+/* ---------- 窄螢幕 ---------- */
+@media (max-width: 767px) {
+  .ld-word { font-size: clamp(42px, 15vw, 72px); }
+  .ld-num  { font-size: var(--fs-min); margin-top: .62em; }
+  .ld-body { align-content: start; padding-top: clamp(16px, 4vh, 40px); }
+  .ld-orbit { max-width: min(74%, 240px); }
+  .ld-auth { flex: 1; }
+  .ld-auth-input { flex: 1; width: auto; min-width: 0; }
+}
+/* 矮螢幕（橫置手機）：收掉軌道動畫，只留主字與登入 */
+@media (max-height: 560px) {
+  .ld-word { font-size: clamp(28px, 7vh, 48px); }
+  .ld-orbit { display: none; }
+}

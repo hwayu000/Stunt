@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="author" content="Ash">
+<meta name="description" content="Stunt — 個人 IP 內容產線：人設定位、人格口吻、文案架構、圖卡文案。">
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  base-uri 'none';
+  object-src 'none';
+  form-action 'none';
+  script-src 'self';
+  style-src 'self';
+  img-src 'self' data: blob:;
+  media-src 'self' blob:;
+  font-src 'self';
+  connect-src 'self' blob: https://api.deepseek.com https://generativelanguage.googleapis.com http://127.0.0.1:* http://localhost:*;
+">
+<meta name="referrer" content="no-referrer">
+<title>Stunt</title>
+
+<!-- 分享預覽：指定 1200×630 的專用圖，避免各平台拿 logo 去裁切成破圖 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stunt">
+<meta property="og:title" content="Stunt — 從人設到內容">
+<meta property="og:description" content="人設定位、人格口吻、文案架構、圖卡文案。一條線把「你是誰」變成「能發的內容」。">
+<meta property="og:url" content="https://hwayu000.github.io/Stunt/">
+<meta property="og:image" content="https://hwayu000.github.io/Stunt/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Stunt — 從人設到內容">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stunt — 從人設到內容">
+<meta name="twitter:description" content="人設定位、人格口吻、文案架構、圖卡文案。">
+<meta name="twitter:image" content="https://hwayu000.github.io/Stunt/assets/og.png">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/landing.css">
+<link rel="stylesheet" href="css/shell.css">
+<link rel="stylesheet" href="css/modules.css">
+<link rel="stylesheet" href="css/persona.css">
+<link rel="stylesheet" href="css/voice.css">
+<link rel="stylesheet" href="css/script.css">
+<link rel="stylesheet" href="css/cardlab.css">
+</head>
+<body>
+
+<!-- ============ 圖示精靈 ============ -->
+<svg class="svg-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="i-persona" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.6-4 3.7-6 7.5-6s6.9 2 7.5 6"/>
+    </g>
+    <g id="i-voice" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+      <path d="M4 11v2M8 8v8M12 5v14M16 8v8M20 11v2"/>
+    </g>
+    <g id="i-script" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 3.5h7.5L18.5 8.5V20a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5Z"/>
+      <path d="M13.5 3.5v5h5M8.5 12.5h7M8.5 16h5"/>
+    </g>
+    <g id="i-cards" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="5.5" width="13" height="15" rx="2"/>
+      <path d="M7.5 3.5h11a2 2 0 0 1 2 2v11"/>
+      <path d="M6.5 15.5l3-3.5 2.5 2.7 2-2.2 2.5 3"/>
+    </g>
+    <g id="i-model" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="7" y="7" width="10" height="10" rx="2.5"/>
+      <path d="M10.5 4v3M13.5 4v3M10.5 17v3M13.5 17v3M4 10.5h3M4 13.5h3M17 10.5h3M17 13.5h3"/>
+    </g>
+    <g id="i-logout" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 4.5H6.5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1H14"/>
+      <path d="M17 8.5 20.5 12 17 15.5M20 12h-9"/>
+    </g>
+    <g id="i-arrow" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h13M12.5 6.5 19 12l-6.5 5.5"/>
+    </g>
+    <g id="i-plus" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+      <path d="M12 5.5v13M5.5 12h13"/>
+    </g>
+    <g id="i-trash" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4.5 6.5h15M9.5 6.5V4.5h5v2M6.5 6.5l1 13h9l1-13M10.5 10v6M13.5 10v6"/>
+    </g>
+    <g id="i-check" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12.5 10 17.5 19 7"/>
+    </g>
+    <g id="i-copy" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="8.5" y="8.5" width="11" height="11" rx="2"/>
+      <path d="M15.5 5.5h-11a1 1 0 0 0-1 1v10"/>
+    </g>
+    <g id="i-download" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M4.5 19.5h15"/>
+    </g>
+    <g id="i-image" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="5.5" width="17" height="13" rx="2"/>
+      <path d="M5 16l4-4.5 3 3.2 2.6-2.8L19 16"/><circle cx="8.5" cy="9.5" r="1.2"/>
+    </g>
+    <g id="i-spark" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 4l1.9 4.6L18.5 10.5 13.9 12.4 12 17l-1.9-4.6L5.5 10.5l4.6-1.9z"/>
+      <path d="M18 4.5v3M19.5 6h-3"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- ============ Landing ============ -->
+<div id="landingView">
+  <header class="ld-top">
+    <img class="mark" src="assets/logo-mark.svg" alt="" width="30" height="30">
+    <span class="wordmark">Stunt<span class="dot">.</span></span>
+    <span class="by">by Ash</span>
+  </header>
+
+  <main class="ld-body">
+    <div class="ld-main">
+      <h1 class="ld-kicker">從人設<span class="mute">到內容</span></h1>
+      <ul class="ld-list">
+        <li class="ld-line"><span class="ld-inner"><span class="ld-word">人設定位</span><span class="ld-num">(01)</span></span></li>
+        <li class="ld-line"><span class="ld-inner"><span class="ld-word">人格口吻</span><span class="ld-num">(02)</span></span></li>
+        <li class="ld-line"><span class="ld-inner"><span class="ld-word">文案架構</span><span class="ld-num">(03)</span></span></li>
+        <li class="ld-line"><span class="ld-inner"><span class="ld-word">圖卡文案</span><span class="ld-num">(04)</span></span></li>
+      </ul>
+    </div>
+
+    <!-- 循環動畫：雙橢圓軌道與繞行光點，純 CSS 無限迴圈 -->
+    <div class="ld-orbit" aria-hidden="true">
+      <svg viewBox="0 0 320 320" width="100%" height="100%">
+        <g class="orb orb-a">
+          <ellipse cx="160" cy="160" rx="132" ry="60"/>
+          <circle class="orb-dot" cx="292" cy="160" r="5"/>
+        </g>
+        <g class="orb orb-b">
+          <ellipse cx="160" cy="160" rx="96" ry="132"/>
+          <circle class="orb-dot orb-dot-b" cx="256" cy="160" r="4"/>
+        </g>
+        <g class="orb orb-c">
+          <ellipse cx="160" cy="160" rx="132" ry="132"/>
+        </g>
+        <circle class="orb-core" cx="160" cy="160" r="3"/>
+      </svg>
+    </div>
+  </main>
+
+  <footer class="ld-foot">
+    <form class="ld-auth" id="loginForm" autocomplete="off">
+      <input class="ld-auth-input" id="loginUser" type="text" placeholder="登入帳號"
+             autocomplete="username" spellcheck="false" aria-label="登入帳號"
+             aria-describedby="loginErr">
+      <button class="ld-auth-go" type="submit" aria-label="進入工作台">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </button>
+    </form>
+    <span class="ld-err" id="loginErr" role="alert" hidden></span>
+  </footer>
+</div>
+
+<!-- ============ App ============ -->
+<div id="appView" hidden>
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="side-brand">
+      <img src="assets/logo-mark.svg" alt="" width="34" height="34">
+      <span class="wordmark">Stunt</span>
+    </div>
+
+    <div class="nav-label">內容產線</div>
+    <button class="nav-item" data-nav="persona"><svg class="ico" viewBox="0 0 24 24"><use href="#i-persona"/></svg>人設定位</button>
+    <button class="nav-item" data-nav="voice"><svg class="ico" viewBox="0 0 24 24"><use href="#i-voice"/></svg>人格口吻</button>
+    <button class="nav-item" data-nav="script"><svg class="ico" viewBox="0 0 24 24"><use href="#i-script"/></svg>文案架構</button>
+    <button class="nav-item" data-nav="cards"><svg class="ico" viewBox="0 0 24 24"><use href="#i-cards"/></svg>圖卡文案</button>
+
+    <div class="nav-label">素材</div>
+    <dl class="side-stat" id="sideStat"></dl>
+
+    <div class="side-foot">
+      <button class="nav-item" data-nav="models"><svg class="ico" viewBox="0 0 24 24"><use href="#i-model"/></svg>模型設定</button>
+      <div class="userchip">
+        <span class="avatar" id="acctAvatar">·</span>
+        <span class="who" id="acctBadge"></span>
+        <button class="btn btn-ghost btn-icon" id="logoutBtn" aria-label="登出" title="登出">
+          <svg class="ico" width="20" height="20" viewBox="0 0 24 24"><use href="#i-logout"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <span class="mobile-brand"><img src="assets/logo-mark.svg" alt="Stunt" width="28" height="28"></span>
+      <span class="page-title" id="pageTitle">人設定位</span>
+      <span class="spacer"></span>
+      <button class="tag engine-chip" id="engineChip" type="button" data-nav="models">未綁定模型</button>
+    </header>
+
+    <div class="content">
+      <section class="page" id="page-persona"  aria-labelledby="t-persona"></section>
+      <section class="page" id="page-voice"    aria-labelledby="t-voice"></section>
+      <section class="page" id="page-script"   aria-labelledby="t-script"></section>
+      <section class="page" id="page-cards"    aria-labelledby="t-cards"></section>
+      <section class="page" id="page-models"   aria-labelledby="t-models"></section>
+    </div>
+  </div>
+</div>
+
+<nav class="bottomnav" aria-label="主導航">
+  <div class="inner">
+    <button class="bn-item" data-nav="persona"><span class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><use href="#i-persona"/></svg></span>人設</button>
+    <button class="bn-item" data-nav="voice"><span class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><use href="#i-voice"/></svg></span>口吻</button>
+    <button class="bn-item" data-nav="script"><span class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><use href="#i-script"/></svg></span>文案</button>
+    <button class="bn-item" data-nav="cards"><span class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><use href="#i-cards"/></svg></span>圖卡</button>
+    <button class="bn-item" data-nav="models"><span class="ico-wrap"><svg class="ico" viewBox="0 0 24 24"><use href="#i-model"/></svg></span>模型</button>
+  </div>
+</nav>
+</div>
+
+<div id="toastHost" aria-live="polite" aria-atomic="true"></div>
+
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/llm.js"></script>
+<script src="js/models.js"></script>
+<script src="js/persona.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/script.js"></script>
+<script src="js/cardlab-engine.js"></script>
+<script src="js/cardlab.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

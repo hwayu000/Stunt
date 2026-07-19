@@ -1,0 +1,325 @@
+/* ============================================================
+   Stunt — App Shell：登入 / 側欄（桌機）/ 底部導航（手機）/ 頁面轉場
+   ============================================================ */
+
+/* ---------------- 登入 ---------------- */
+#loginView {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--sp-5);
+  background: #EAEAEA;   /* 與 Landing 同一片灰底，不用漸層光暈 */
+}
+#loginView[hidden] { display: none; }
+
+.login-card {
+  width: min(400px, 100%);
+  padding: var(--sp-8);
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-4);
+  animation: rise var(--dur-slow) var(--ease-out);
+}
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+
+.login-brand { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-6); }
+.login-brand img { width: 48px; height: 48px; border-radius: var(--r-md); }
+.login-brand .wordmark { font-size: var(--fs-2xl); font-weight: var(--fw-bold); letter-spacing: -.02em; }
+.login-brand .tagline { color: var(--ink-3); font-size: var(--fs-sm); }
+
+.login-err {
+  margin-bottom: var(--sp-4); padding: 10px var(--sp-4);
+  font-size: var(--fs-sm); color: var(--danger);
+  background: var(--danger-soft); border: 1px solid var(--danger-soft); border-radius: var(--r-md);
+}
+.login-err[hidden] { display: none; }
+.shake { animation: shake 340ms var(--ease); }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-7px); }
+  40%     { transform: translateX(6px); }
+  60%     { transform: translateX(-4px); }
+  80%     { transform: translateX(2px); }
+}
+
+/* ---------------- Shell 骨架 ---------------- */
+#appView[hidden] { display: none; }
+.shell { display: flex; min-height: 100dvh; }
+
+/* ---------------- 側欄（桌機） ---------------- */
+.sidebar {
+  width: var(--sidebar-w); flex: none;
+  display: flex; flex-direction: column; gap: var(--sp-2);
+  padding: var(--sp-5) var(--sp-4);
+  background: var(--bg-elev);
+  border-right: 1px solid var(--line);
+  position: sticky; top: 0; height: 100dvh; overflow-y: auto;
+}
+
+.side-brand {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-2) var(--sp-5);
+}
+.side-brand img { width: 34px; height: 34px; border-radius: var(--r-sm); }
+.side-brand .wordmark { font-size: var(--fs-lg); font-weight: var(--fw-bold); letter-spacing: -.01em; }
+
+/* 分區標籤：等寬大寫加字距，下面壓一條 hairline，讓側欄有骨架 */
+.nav-label {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-3) var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm); color: var(--ink-3);
+  letter-spacing: .12em;
+}
+.nav-label::after {
+  content: ""; flex: 1; height: 1px; background: var(--line);
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: var(--sp-3);
+  width: 100%; min-height: 42px;
+  padding: 0 var(--sp-3);
+  font-family: inherit; font-size: var(--fs-base); font-weight: var(--fw-medium);
+  color: var(--ink-2); text-align: left;
+  background: transparent; border: 0; border-radius: var(--r-md);
+  cursor: pointer; position: relative;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.nav-item .ico { width: 20px; height: 20px; flex: none; opacity: .75; }
+.nav-item:hover { background: var(--bg-sunken); color: var(--ink); }
+.nav-item:hover .ico { opacity: 1; }
+
+/* 啟用態＝文字轉近黑加重、左側一道橘色短標記。不做整塊填色。 */
+.nav-item.active { color: var(--ink); font-weight: var(--fw-semi); background: transparent; }
+.nav-item.active .ico { opacity: 1; }
+.nav-item.active::before {
+  content: ""; position: absolute; left: 0; top: 50%;
+  width: 2px; height: 18px; margin-top: -9px;
+  border-radius: 1px; background: var(--brand);
+}
+
+/* 側欄素材狀態：等寬數字＋hairline，把中段留白變成有用的資訊 */
+.side-stat { margin: 0; }
+.side-stat-row {
+  display: flex; align-items: baseline; gap: var(--sp-3);
+  padding: 9px var(--sp-3);
+  border-bottom: 1px solid var(--line);
+}
+.side-stat-row:last-child { border-bottom: 0; }
+.side-stat-row dt {
+  flex: none; width: 1.8em;
+  font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--ink-3);
+}
+.side-stat-row dd { margin: 0; }
+.side-stat-row .nm { flex: 1; font-size: var(--fs-sm); color: var(--ink-2); }
+.side-stat-row .val {
+  font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--ink-3);
+}
+.side-stat-row.has dt  { color: var(--brand); }
+.side-stat-row.has .nm { color: var(--ink); }
+.side-stat-row.has .val { color: var(--ink); font-weight: var(--fw-semi); }
+
+.side-foot { margin-top: auto; padding-top: var(--sp-5); border-top: 1px solid var(--line); }
+.userchip {
+  display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-2);
+}
+.avatar {
+  width: 34px; height: 34px; flex: none; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--accent-soft); color: var(--accent-hover);
+  font-weight: var(--fw-bold); font-size: var(--fs-sm);
+}
+.userchip .who { flex: 1; min-width: 0; font-weight: var(--fw-semi); }
+
+/* ---------------- 主區 ---------------- */
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.topbar {
+  position: sticky; top: 0; z-index: var(--z-nav);
+  display: flex; align-items: center; gap: var(--sp-3);
+  height: var(--topbar-h); padding: 0 var(--sp-6);
+  background: rgba(252, 251, 249, .84);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .page-title { font-size: var(--fs-lg); font-weight: var(--fw-semi); }
+
+/* 桌機沒有 Dock，生成中的指示改掛在頂欄下緣：一道來回掃動的細光線 */
+.topbar::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
+  height: 2px; opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--brand), var(--accent), transparent);
+  background-size: 42% 100%; background-repeat: no-repeat;
+  transition: opacity var(--dur-base) var(--ease);
+  pointer-events: none;
+}
+body.is-generating .topbar::after {
+  opacity: 1;
+  animation: topbar-sweep 1.5s var(--ease) infinite;
+}
+@keyframes topbar-sweep {
+  from { background-position: -45% 0; }
+  to   { background-position: 145% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.is-generating .topbar::after { animation: none; }
+}
+.topbar .mobile-brand { display: none; align-items: center; gap: var(--sp-2); }
+
+/* 引擎徽章本身即「模型設定」入口，不再另放重複的圖示按鈕 */
+.engine-chip {
+  font-family: inherit; cursor: pointer;
+  min-height: 32px;
+  transition: filter var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.engine-chip:hover { filter: brightness(.97); }
+.engine-chip:active { transform: translateY(1px); }
+@media (max-width: 767px) { .engine-chip { min-height: 36px; } }
+.topbar .mobile-brand img { width: 28px; height: 28px; border-radius: var(--r-sm); }
+
+.content {
+  flex: 1;
+  width: 100%; max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-6) var(--sp-12);
+}
+
+/* ---------------- 頁面轉場 ---------------- */
+.page { display: none; }
+.page.active { display: block; }
+
+/* 進場：頁首與各張卡片依序浮現，而不是整頁一起閃一下 */
+.page.active > * {
+  opacity: 0;
+  animation: page-in .5s var(--ease-out) forwards;
+}
+.page.active > *:nth-child(1) { animation-delay: .02s; }
+.page.active > *:nth-child(2) { animation-delay: .08s; }
+.page.active > *:nth-child(3) { animation-delay: .14s; }
+.page.active > *:nth-child(4) { animation-delay: .20s; }
+.page.active > *:nth-child(5) { animation-delay: .26s; }
+.page.active > *:nth-child(n+6) { animation-delay: .30s; }
+
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page.active > * { opacity: 1; animation: none; }
+}
+.page-head { margin-bottom: var(--sp-6); }
+.page-head h1 { margin-bottom: var(--sp-2); }
+.page-head .lede { color: var(--ink-2); max-width: 62ch; }
+
+/* 手機：敘述收進氣泡後，讓 ? 與標題同一行，不要自己佔一整行 */
+@media (max-width: 767px) {
+  .page-head {
+    display: flex; align-items: center; gap: var(--sp-3);
+    flex-wrap: wrap;
+  }
+  .page-head h1 { margin-bottom: 0; }
+}
+
+/* ---------------- 底部導航（手機） ---------------- */
+/* 懸浮 Dock：脫離螢幕邊緣、圓弧、毛玻璃，像 macOS 的工作列 */
+.bottomnav {
+  display: none;
+  position: fixed; z-index: var(--z-nav);
+  left: var(--dock-gap); right: var(--dock-gap);
+  bottom: calc(var(--dock-gap) + env(safe-area-inset-bottom, 0px));
+  height: var(--bottomnav-h);
+  border-radius: var(--dock-radius);
+  background: rgba(252, 251, 249, .80);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(255, 255, 255, .66);
+  box-shadow:
+    0 12px 32px rgba(26, 25, 23, .13),
+    0 2px 8px rgba(26, 25, 23, .06),
+    inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+/* 內層面板：Dock 的可見底色由這一層負責，外層留給光帶 */
+.bottomnav .inner {
+  display: flex; height: 100%;
+  padding: 0 var(--sp-2);
+  border-radius: inherit;
+  background: inherit;
+}
+
+/* ---- 生成中：導航列外圍環繞光帶（克制版：細環＋淡暈，不閃爍） ---- */
+@property --stunt-ang {
+  syntax: '<angle>'; initial-value: 0deg; inherits: false;
+}
+.bottomnav.is-generating {
+  box-shadow:
+    0 10px 34px rgba(221, 90, 36, .22),
+    0 2px 8px rgba(26, 25, 23, .06),
+    inset 0 1px 0 rgba(255, 255, 255, .9);
+  transition: box-shadow var(--dur-slow) var(--ease);
+}
+.bottomnav.is-generating::before {
+  content: "";
+  position: absolute; inset: -2px;
+  border-radius: calc(var(--dock-radius) + 2px);
+  /* 外層鋪旋轉漸層，內層面板蓋住中間，露出的一圈就是環繞光。
+     不依賴 mask-composite，任何瀏覽器都畫得出來。 */
+  background: conic-gradient(
+    from var(--stunt-ang),
+    rgba(221, 90, 36, 0) 0deg,
+    rgba(221, 90, 36, .95) 55deg,
+    rgba(53, 97, 142, .95) 105deg,
+    rgba(221, 90, 36, 0) 185deg,
+    rgba(221, 90, 36, 0) 360deg
+  );
+  animation: stunt-ring 2.2s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+/* 內層面板轉為不透明，才能把漸層擋成細細一圈 */
+.bottomnav.is-generating .inner { background: rgba(252, 251, 249, .97); }
+@keyframes stunt-ring { to { --stunt-ang: 360deg; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .bottomnav.is-generating::before { animation: none; }
+}
+.bn-item {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; padding: 0 2px;
+  font-family: inherit; font-size: var(--fs-min); font-weight: var(--fw-medium);
+  color: var(--ink-3); background: transparent; border: 0; cursor: pointer;
+  position: relative; -webkit-tap-highlight-color: transparent;
+  transition: color var(--dur-fast) var(--ease);
+}
+.bn-item .ico-wrap {
+  display: grid; place-items: center;
+  width: 40px; height: 28px; border-radius: var(--r-md);
+  background: transparent;
+  transition: background var(--dur-base) var(--ease),
+              transform var(--dur-base) var(--ease-out);
+}
+.bn-item .ico { width: 23px; height: 23px; }
+.bn-item.active { color: var(--ink); font-weight: var(--fw-semi); }
+.bn-item.active .ico-wrap { background: rgba(26, 25, 23, .07); }
+/* 啟用指示：底下一顆橘點，取代整塊填色 */
+.bn-item.active::after {
+  content: ""; position: absolute; bottom: 7px;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--brand);
+}
+.bn-item:active .ico-wrap { transform: scale(.94); }
+
+/* ---------------- 斷點切換 ---------------- */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .bottomnav { display: block; }
+  .topbar { height: 56px; padding: 0 var(--sp-4); }
+  .topbar .mobile-brand { display: flex; }
+  .topbar .page-title { font-size: var(--fs-md); }
+  .content {
+    /* 底部留白要讓出懸浮 Dock 的高度與上下間距 */
+    padding: var(--sp-4) var(--sp-4)
+             calc(var(--bottomnav-h) + var(--dock-gap) * 2 + var(--sp-6)
+                  + env(safe-area-inset-bottom, 0px));
+  }
+  .card { padding: var(--sp-5); border-radius: var(--r-md); }
+}
